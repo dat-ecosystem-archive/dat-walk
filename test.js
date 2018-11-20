@@ -10,7 +10,8 @@ test('callbacks', async t => {
   var walker = walk(scope, 'node_modules')
 
   for await (var file of walker) {
-    t.ok(fs.existsSync(file), file)
+    var stats = await fs.promises.lstat(file)
+    t.notOk(stats.isDirectory(), file)
   }
   t.end()
 })
@@ -28,4 +29,5 @@ test('async/await', async t => {
     t.ok(file === 'dat.json' || files.includes(file), file)
   }
   t.end()
+  window.close()
 })
