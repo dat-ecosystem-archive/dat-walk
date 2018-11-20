@@ -1,0 +1,37 @@
+{
+  "name": "dat-walk",
+  "version": "1.0.0",
+  "description": "Recursive directory walker for dat archives",
+  "main": "index.js",
+  "dependencies": {
+    "async-iterator-to-stream": "^1.0.3",
+    "callbox": "^1.0.0"
+  },
+  "devDependencies": {
+    "@rangermauve/webrun": "^3.0.2",
+    "scoped-fs": "^1.2.0",
+    "standard": "^12.0.1",
+    "tape": "^4.9.1"
+  },
+  "scripts": {
+    "test": "standard && webrun --allow-require test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brechtcs/dat-walk.git"
+  },
+  "keywords": [
+    "file",
+    "directory",
+    "walker",
+    "dat",
+    "hyperdrive",
+    "scoped-fs"
+  ],
+  "bugs": {
+    "url": "https://github.com/brechtcs/dat-walk/issues"
+  },
+  "homepage": "https://github.com/brechtcs/dat-walk#readme",
+  "author": "Brecht Savelkoul <brecht.savelkoul@gmail.com>",
+  "license": "Apache-2.0"
+}
