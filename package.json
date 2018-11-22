@@ -1,6 +1,6 @@
 {
   "name": "dat-walk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Recursive directory walker for dat archives",
   "main": "index.js",
   "dependencies": {
