@@ -2,14 +2,14 @@ var { join } = require('path')
 var box = require('callbox')
 var stream = require('async-iterator-to-stream')
 
-module.exports = (dat, root) => {
-  var it = walk(dat, root)
+module.exports = (dat, base) => {
+  var it = walk(dat, base)
   it.stream = opts => stream(it, opts)
   return it
 }
 
-async function * walk (dat, root) {
-  var queue = [root || '']
+async function * walk (dat, base) {
+  var queue = [normalize(base)]
 
   while (queue.length) {
     var path = queue.shift()
@@ -24,6 +24,13 @@ async function * walk (dat, root) {
 
     yield path
   }
+}
+
+function normalize (base) {
+  if (!base || base === '.' || base === '/') {
+    return ''
+  }
+  return base
 }
 
 function stat (dat, path) {
