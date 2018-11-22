@@ -5,18 +5,21 @@ var fs = require('fs')
 var test = require('./node_modules/tape')
 var walk = require('./')
 
-test('callbacks', async t => {
+test('callbacks & stream', t => {
   var scope = new Fs('./')
-  var walker = walk(scope, 'node_modules')
+  var walker = walk(scope, 'node_modules').stream()
 
-  for await (var file of walker) {
-    var stats = await fs.promises.lstat(file)
+  walker.on('data', file => {
+    var stats = fs.lstatSync(file)
     t.notOk(stats.isDirectory(), file)
-  }
-  t.end()
+  })
+
+  walker.on('end', () => {
+    t.end()
+  })
 })
 
-test('async/await', async t => {
+test('async/await & iterator', async t => {
   var dat = await DatArchive.create()
   var files = ['one.md', 'two.md', 'three.md']
   var file
