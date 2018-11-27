@@ -2,18 +2,20 @@ var { join } = require('path')
 var box = require('callbox')
 var stream = require('async-iterator-to-stream')
 
-module.exports = (dat, base) => {
-  var it = walk(dat, base)
+module.exports = (dat, opts) => {
+  opts = opts || {}
+  var base = typeof opts === 'string' ? opts : opts.base
+  var it = walk(dat, base, opts)
   it.stream = opts => stream(it, opts)
   return it
 }
 
-async function * walk (dat, base) {
+async function * walk (dat, base, opts) {
   var queue = [normalize(base)]
 
   while (queue.length) {
     var path = queue.shift()
-    var stats = await stat(dat, path)
+    var stats = await stat(dat, path, opts.follow)
 
     if (stats.isDirectory()) {
       var items = await readdir(dat, path)
@@ -33,8 +35,11 @@ function normalize (base) {
   return base
 }
 
-function stat (dat, path) {
-  var lstat = dat.lstat ? dat.lstat.bind(dat) : dat.stat.bind(dat)
+function stat (dat, path, follow) {
+  var lstat = !follow && dat.lstat
+    ? dat.lstat.bind(dat)
+    : dat.stat.bind(dat)
+
   if (lstat.constructor.name === 'AsyncFunction') {
     return lstat(path)
   }
