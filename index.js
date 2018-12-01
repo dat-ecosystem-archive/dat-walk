@@ -18,7 +18,7 @@ async function * walk (dat, base, opts) {
       var items = await readdir(dat, path)
       var paths = items.map(item => join(path, item))
       queue.push.apply(queue, paths)
-      continue
+      if (!opts.dirs) continue
     }
 
     yield path
