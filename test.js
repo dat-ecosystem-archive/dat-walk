@@ -3,11 +3,12 @@
 var Fs = require('./node_modules/scoped-fs')
 var fs = require('fs')
 var test = require('./node_modules/tape')
-var walk = require('./')
 
 test('callbacks & stream', t => {
+  var walk = require('./stream')
+
   var scope = new Fs('./')
-  var walker = walk(scope, 'node_modules').stream()
+  var walker = walk(scope, 'node_modules')
 
   walker.on('data', file => {
     var stats = fs.lstatSync(file)
@@ -20,6 +21,8 @@ test('callbacks & stream', t => {
 })
 
 test('async/await & iterator', async t => {
+  var walk = require('./')
+
   var dat = await DatArchive.create()
   var files = ['one.md', 'two.md', 'three.md']
   var file

@@ -1,13 +1,10 @@
 var { join } = require('path')
 var box = require('callbox')
-var stream = require('async-iterator-to-stream')
 
 module.exports = (dat, opts) => {
   opts = opts || {}
   var base = typeof opts === 'string' ? opts : opts.base
-  var it = walk(dat, base, opts)
-  it.stream = opts => stream(it, opts)
-  return it
+  return walk(dat, base, opts)
 }
 
 async function * walk (dat, base, opts) {

@@ -6,7 +6,7 @@ Supports both raw `hyperdrive` instances and Beaker Browser's `DatArchive` API.
 
 ## Usage
 
-There's two API's for walking directories. The first uses async iteration, the second a basic Node stream. Both these examples log all file paths of a given `dat` to the console.
+This package exports two modules. The default `require('dat-walk')` works with async iteration, whereas `require('dat-walk/stream')` uses standard Node streams. Both these examples log all file paths of a given `dat` to the console.
 
 ```js
 // Async iteration
@@ -25,10 +25,10 @@ main()
 
 // Node stream
 var hyperdrive = require('hyperdrive')
-var walk = require('dat-walk')
+var walk = require('dat-walk/stream')
 
 var dat = hyperdrive(key)
-var stream = walk(dat, 'subdir').stream()
+var stream = walk(dat, 'subdir')
 
 stream.on('data', console.log)
 stream.on('end', () => console.log('done!'))
